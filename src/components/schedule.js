@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import './schedule.css';
-import db from './../firebase';
+import {db} from './../firebase';
 const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 class Adder extends Component{
@@ -12,7 +12,7 @@ class Adder extends Component{
     return <div className='form-inline'>
         <input className='form-control' onChange={(e)=>{this.setState({key:e.target.value})}} placeholder='time'/>
         <input className='form-control' onChange={(e)=>{this.setState({value:e.target.value})}} placeholder='period'/>
-        <button class='btn btn-primary btn-small' onClick={e=>{this.props.onAdd(this.state)}}>Add</button>
+        <button className='btn btn-primary btn-small' onClick={e=>{this.props.onAdd(this.state)}}>Add</button>
     </div>
   }
 }
@@ -26,9 +26,9 @@ class Schedule extends Component{
   ref = {};
   _registerListeners(){
       this.ref = db.ref(`class-schedules/${this.props.department}/${this.props.year}/${this.state.day}`);
-      
+    
       this.ref.on('child_added',s=>{
-          
+          console.log(s.key);
           let v = this.state.schedules;
           console.log(v);
           v.push({key:s.key,value:s.val()});

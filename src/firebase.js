@@ -10,4 +10,6 @@ const app = firebase.initializeApp({
 });
 const db =app.database();
 
-export default db;
+const auth = app.auth();
+
+export {auth,db} ;
