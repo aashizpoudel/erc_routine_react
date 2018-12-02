@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Schedule from './components/schedule';
 import Login from './components/login';
-const options=['BME','BEX','BCE','BEL'];
-const years=['I','II','III','IV'];
+const options=['BME','BEX','BCE','BEL','BCT','BArch','BAG'];
+const years=['I','I-A','I-B','II','II-A','II-B','III','III-A','III-B','IV','IV-A','IV-B'];
 
 
 
