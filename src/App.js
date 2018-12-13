@@ -35,7 +35,7 @@ class App extends Component {
        </div>
        
        <div className='mt-2 bordered border shadow'>  
-        <Schedule department={this.state.department} year={this.state.year}/>
+        <Schedule department={this.state.department} year={this.state.year} />
        </div>
       </div>
     );

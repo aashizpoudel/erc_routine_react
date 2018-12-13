@@ -8,11 +8,16 @@ class Adder extends Component{
     key:'',
     value:''
   }
+  onClick(){
+    if(this.state.key && this.state.value)
+    this.props.onAdd(this.state);this.setState({key:this.state.key.split('-')[1]+'-'});
+  }
   render(){
     return <div className='form-inline'>
-        <input className='form-control' onChange={(e)=>{this.setState({key:e.target.value})}} placeholder='time'/>
-        <input className='form-control' onChange={(e)=>{this.setState({value:e.target.value})}} placeholder='period'/>
-        <button className='btn btn-primary btn-small' onClick={e=>{this.props.onAdd(this.state)}}>Add</button>
+        <input className='form-control' onChange={(e)=>{this.setState({key:e.target.value})}} value={this.state.key} placeholder='time'/>
+        <input className='form-control' onKeyPress={(e)=>{if(e.key=="Enter")this.onClick();}} onChange={(e)=>{this.setState({value:e.target.value})}} placeholder='period'/>
+        <button className='btn btn-primary btn-small'  onClick={()=>{this.onClick()
+        }}>Add</button>
     </div>
   }
 }
@@ -69,9 +74,16 @@ class Schedule extends Component{
       this._unregisterListeners();
   }
   
+  _refresh(){
+   window.$("#root").notify("successfully refreshed",{position:'right top'});
+    this._unregisterListeners();
+    this._registerListeners();
+    this.setState(({schedules:[]}));
+  }
+  
   _deleteHandler(e){
     
-    this.ref.child(e).remove().then(()=>{alert('deleted!!')});
+    this.ref.child(e).remove().then(()=>{window.$("#root").notify("successfully deleted",{position:'right top'})});
   }
   
   _handleDayChange(d){
@@ -86,6 +98,7 @@ class Schedule extends Component{
    
       this.setState({day:day});
   }
+  
   render(){
     console.log('rendered');
     return <div>
@@ -94,6 +107,8 @@ class Schedule extends Component{
                 {days[parseInt(this.state.day)-1]}
                 <span role='button' onClick={()=>{this._handleDayChange(1)}}><a href='#'><i role='button' className='fa fa-toggle-right text-primary ml-4'></i></a></span>
                 </p>
+                <a><span onClick={()=>{this._refresh()}} className='pull-right'>Refresh<i className='fa fa-refresh px-2'></i></span></a>
+                <div className='clearfix'></div>
                 <hr />
                 {this.state.schedules.length===0?<p>No Schedules</p>:''}
                 <div className='panelWrapper'>
